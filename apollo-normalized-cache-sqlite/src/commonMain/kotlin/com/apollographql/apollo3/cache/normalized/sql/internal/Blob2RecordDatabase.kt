@@ -1,10 +1,10 @@
 package com.apollographql.apollo3.cache.normalized.sql.internal
 
-import com.apollographql.apollo3.cache.internal.blob.BlobQueries
+import com.apollographql.apollo3.cache.internal.blob2.Blob2Queries
 import com.apollographql.apollo3.cache.normalized.api.Record
 import com.apollographql.apollo3.cache.normalized.api.internal.BlobRecordSerializer
 
-internal class BlobRecordDatabase(private val blobQueries: BlobQueries): RecordDatabase {
+internal class Blob2RecordDatabase(private val blobQueries: Blob2Queries): RecordDatabase {
   override fun select(key: String): Record? {
     return blobQueries.recordForKey(key).executeAsList()
         .map {
@@ -43,14 +43,21 @@ internal class BlobRecordDatabase(private val blobQueries: BlobQueries): RecordD
   }
 
   override fun insert(record: Record) {
-    blobQueries.insert(record.key, BlobRecordSerializer.serialize(record))
+    blobQueries.insert(record.key, BlobRecordSerializer.serialize(record), record.date())
   }
 
   override fun update(record: Record) {
-    blobQueries.update(BlobRecordSerializer.serialize(record), record.key)
+    blobQueries.update(BlobRecordSerializer.serialize(record), record.date(), record.key)
   }
 
   override fun selectAll(): List<Record> {
     TODO("Not yet implemented")
+  }
+
+  private fun Record.date(): Long? {
+    /**
+     * The
+     */
+    return date?.values?.filterNotNull()?.maxOrNull()
   }
 }

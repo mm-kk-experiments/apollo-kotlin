@@ -149,6 +149,7 @@ tasks.register("ciTestsNoGradle") {
    */
   dependsOn(":apollo-normalized-cache-sqlite:generateCommonMainBlobDatabaseSchema")
   dependsOn(":apollo-normalized-cache-sqlite:generateCommonMainJsonDatabaseSchema")
+  dependsOn(":apollo-normalized-cache-sqlite:generateCommonMainBlob2DatabaseSchema")
 
   doLast {
     checkGitStatus()

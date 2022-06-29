@@ -32,8 +32,6 @@ internal fun createRecordDatabase(driver: SqlDriver, withDates: Boolean): Record
     "Apollo: Cannot find the '$expectedTableName' table, did you change the 'withDates' parameter? (found '$tableNames' instead)"
   }
 
-
-
   return if (withDates) {
     BlobRecordDatabase(BlobDatabase(driver).blobQueries)
   } else {
